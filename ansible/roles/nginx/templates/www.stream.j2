@@ -1,0 +1,8 @@
+upstream www_ssh {
+    server {{ www_ip }}:{{ ssh_port }};
+}
+
+server {
+    listen {{ www_stream }};
+    proxy_pass www_ssh;
+}

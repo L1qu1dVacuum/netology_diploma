@@ -1,0 +1,44 @@
+---
+# tasks file for gitlab docker runner
+
+  - name: Docker {{ runner }} | Copy Docker-compose file
+    template:
+      src: templates/docker-compose-runner.j2
+      dest: /home/{{ ansible_user }}/docker-compose.yml
+      mode: 0755
+
+  - name: Docker {{ runner }} | Create directory runner-config for volumes
+    file:
+      path: /home/{{ ansible_user }}/runner-config
+      state: directory
+
+  - name: Docker {{ runner }} | Create directory ranner-docker.sock for volumes
+    file:
+      path: /home/{{ ansible_user }}/ranner-docker.sock
+      state: directory
+
+  - name: Docker {{ runner }} | Create and start services
+    docker_compose:
+      project_src: /home/{{ ansible_user }}
+    register: output
+
+  - name: Show register
+    debug: 
+      var: output
+
+  - name: Docker {{ runner }} | Copy config.toml ans register
+    template:
+      src: templates/config.j2
+      dest: /home/{{ ansible_user }}/runner-config/config.toml
+    notify: Restart runner
+
+  - name: Flush handlers
+    meta: flush_handlers
+
+  - name: Docker {{ runner }} | Get register info
+    command: docker exec -it {{ runner }} gitlab-runner list
+    register: runner_status
+
+  - name: Docker {{ runner }} | Show runner status
+    debug:
+      var: runner_status.stdout

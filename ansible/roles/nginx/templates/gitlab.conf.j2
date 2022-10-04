@@ -1,0 +1,25 @@
+upstream gitlab_http {
+    server {{ gitlab_ip }}:{{ http_port }};
+}
+
+server {
+    listen 443;
+    server_name gitlab.{{ my_domain }};
+
+
+    location / {
+        proxy_redirect     off;
+        proxy_set_header   X-Forwarded-Proto https;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass         http://gitlab_http;
+        proxy_redirect     default;
+    }
+}
+
+server {
+    listen 80;
+    server_name gitlab.{{ my_domain }};
+    return 301 https://gitlab.{{ my_domain }}$request_uri;
+}

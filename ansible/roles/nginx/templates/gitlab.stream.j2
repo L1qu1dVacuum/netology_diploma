@@ -1,0 +1,8 @@
+upstream gitlab_ssh {
+    server {{ gitlab_ip }}:{{ ssh_port }};
+}
+
+server {
+    listen {{ gitlab_stream }};
+    proxy_pass gitlab_ssh;
+}

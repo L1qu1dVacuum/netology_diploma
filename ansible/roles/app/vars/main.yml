@@ -1,0 +1,6 @@
+---
+# vars file for app
+
+mysql_user: wordpress
+mysql_pass: wordpress
+mysql_db: wordpress

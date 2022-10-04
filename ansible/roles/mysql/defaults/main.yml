@@ -1,0 +1,11 @@
+---
+# defaults file for mysql
+
+primary_host: db01.mydomainyouknow.fun
+replica_host: db02.mydomainyouknow.fun
+
+primary_server: db01
+replica_server: db02
+
+db01_ip: 10.10.0.5
+db02_ip: 10.10.0.6

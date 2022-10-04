@@ -1,0 +1,28 @@
+version: '3.6'
+ 
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: {{ gitlab }}
+    hostname: {{ gitlab_host }}
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = "{{ gitlab_pass }}"
+        gitlab_rails['initial_shared_runners_registration_token'] = "{{ token_ce }}"
+        external_url '{{ gitlab_url }}'
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+prometheus_monitoring['enable'] = false
+    ports:
+      - "443:443"
+      - "{{ http_port }}:80"
+      - "{{ ssh_port }}:22"
+# The logs directory can be mapped to the logs directory in the same director
+# as the docker-compose file using the following entry under volumes:
+# - ./logs:/var/log/gitlab
+    volumes:
+      - /home/{{ ansible_user }}/gitlab-config:/etc/gitlab
+      - /home/{{ ansible_user }}/gitlab-data:/var/opt/gitlab
+      - ./logs:/var/log/gitlab
+    shm_size: '256m'
+    restart: always

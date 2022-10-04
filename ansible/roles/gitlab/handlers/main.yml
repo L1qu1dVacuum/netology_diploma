@@ -1,0 +1,8 @@
+---
+# handlers file for gitlab
+
+  - name: Restart docker runner
+    command: docker exec -it {{ runner }} gitlab-runner restart
+
+  - name: Restart runner
+    command: gitlab-runner restart

@@ -1,0 +1,12 @@
+---
+# vars file for monitoring
+
+ADMIN_USER:     admin
+ADMIN_PASSWORD: admin
+
+email_login:  your_source@email.com
+email_pass:   email_password
+email_target: your_target@email.com
+email_source: your_source@email.com
+SMTP_host:    smtp.email.com
+smtp_port:    smtp_port

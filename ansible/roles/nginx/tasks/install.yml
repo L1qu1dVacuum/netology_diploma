@@ -1,0 +1,25 @@
+---
+# tasks file for nginx insatall
+
+  - name: Update apt cache
+    apt: 
+      update_cache: yes 
+      cache_valid_time: 3600
+    ignore_errors: true
+
+  - name: Install nginx in Debian | Apt install
+    apt:
+      name: nginx
+      state: latest
+    notify: Nginx start
+
+  - name: Nginx cert | Install letsencrypt
+    apt:
+      name: certbot
+      state: latest
+
+  - name: Nginx cert | Install certbot nginx plugin
+    apt:
+      name: python3-certbot-nginx
+      state: latest
+

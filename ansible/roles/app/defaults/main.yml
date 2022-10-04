@@ -1,0 +1,12 @@
+---
+# defaults file for app
+
+domain_zones: www
+my_domain:    mydomainyouknow.fun
+
+mysql_host: db01.mydomainyouknow.fun
+
+wp_version: latest
+
+db01_ip: 10.10.0.5
+db02_ip: 10.10.0.6

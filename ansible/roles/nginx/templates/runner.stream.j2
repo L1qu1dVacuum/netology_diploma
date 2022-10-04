@@ -1,0 +1,10 @@
+upstream runner_ssh {
+    server {{ runner_ip }}:{{ ssh_port }};
+} 
+
+server {
+    listen {{ runner_stream }};
+    proxy_pass runner_ssh;
+    
+}
+

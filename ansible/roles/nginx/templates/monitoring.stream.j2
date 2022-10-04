@@ -1,0 +1,8 @@
+upstream monitoring_ssh {
+  server {{ monitoring_ip }}:{{ ssh_port }};
+}
+
+server {
+    listen {{ monitoring_stream }};
+    proxy_pass monitoring_ssh;
+}

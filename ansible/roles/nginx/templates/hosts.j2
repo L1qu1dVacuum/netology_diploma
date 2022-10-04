@@ -1,0 +1,19 @@
+127.0.0.1   localhost   {{ my_domain }} {{ ansible_nodename }}.{{ my_domain }}
+127.0.1.1   {{ ansible_nodename }}
+
+{{ db01_ip }}            db01.{{ my_domain }}
+{{ db02_ip }}            db02.{{ my_domain }}
+{{ www_ip }}            www.{{ my_domain }}
+{{ gitlab_ip }}         gitlab.{{ my_domain }}
+{{ runner_ip }}         runner.{{ my_domain }}
+{{ alertmanager_ip }}   alertmanager.{{ my_domain }}
+{{ prometheus_ip }}     prometheus.{{ my_domain }}
+{{ grafana_ip }}        grafana.{{ my_domain }}
+
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

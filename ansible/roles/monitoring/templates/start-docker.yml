@@ -1,0 +1,67 @@
+---
+# tasks file for configure prometheus
+
+  - name: Prometheus | Create directory for volumes config
+    file:
+      path: /home/{{ ansible_user }}/prometheus
+      state: directory
+
+  - name: Prometheus | Copy prometheus.yml file
+    template:
+      src: templates/prometheus.yml.j2
+      dest: /home/{{ ansible_user }}/prometheus/prometheus.yml
+      mode: 0755
+
+  - name: Prometheus | Copy alert.rules file
+    template:
+      src: templates/alert.rules.j2
+      dest: /home/{{ ansible_user }}/prometheus/alert.rules
+      mode: 0755
+    ignore_errors: true
+
+  - name: Grafana | Create directory for volumes lib
+    file:
+      path: /home/{{ ansible_user }}/grafana
+      state: directory
+
+  - name: Grafana | Create directory for volumes provisioning
+    file:
+      path: /home/{{ ansible_user }}/grafana/provisioning
+      state: directory
+
+  - name: Grafana | Create directory for volumes dashboards
+    file:
+      path: /home/{{ ansible_user }}/grafana/dashboards
+      state: directory
+
+  - name: Grafana | Copy datasources file
+    template:
+      src: templates/am.config.yml.j2
+      dest: /home/{{ ansible_user }}/alertmanager/config.yml
+      mode: 0755
+
+  - name: Alertmanager | Create directory for volumes config
+    file:
+      path: /home/{{ ansible_user }}/alertmanager
+      state: directory
+
+  - name: Alertmanager | Copy config.yml file
+    template:
+      src: templates/am.config.yml.j2
+      dest: /home/{{ ansible_user }}/alertmanager/config.yml
+      mode: 0755
+
+  - name: Monitoring | Copy Docker-compose file
+    template:
+      src: templates/docker-compose.j2
+      dest: /home/{{ ansible_user }}/docker-compose.yml
+      mode: 0755
+
+  - name: Docker | Create and start services
+    docker_compose:
+      project_src: /home/{{ ansible_user }}
+    register: output
+
+  - name: Show register
+    debug: 
+      var: output

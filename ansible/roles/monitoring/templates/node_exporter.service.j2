@@ -1,0 +1,7 @@
+[Unit]
+Description=Node Exporter
+[Service]
+Type=simple
+ExecStart={{ ne_dir }}/node_exporter
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+---
+# defaults file for monitoring
+
+my_domain: mydomainyouknow.fun
+monitoring_host: monitoring
+
+# Varamles for node-exporter
+ne_dir:     /usr/local/bin
+ne_ver:     1.4.0
+ne_get_url: https://github.com/prometheus/node_exporter/releases/download/v{{ ne_ver }}/node_exporter-{{ ne_ver }}.linux-amd64.tar.gz
+ne_port:    9100
+
+# Hosts for monitoring
+www:            www.{{ my_domain }}
+gitlab:         gitlab.{{ my_domain }}
+runner:         runner.{{ my_domain }}
+db01:            db01.{{ my_domain }}
+db02:            db02.{{ my_domain }}
+reverse:        reverse.{{ my_domain }}
+grafana:        grafana.{{ my_domain }}
+prometheus:     prometheus.{{ my_domain }}
+alertmanager:   alertmanager.{{ my_domain }}
+monitoring:     "{{ ansible_default_ipv4.address }}"
+
+datasource_host: "{{ ansible_default_ipv4.address }}"
+
+# Service ports
+grafana_port:       3000
+prometheus_port:    9090
+alertmanager_port:  9093

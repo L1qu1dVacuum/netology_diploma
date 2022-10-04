@@ -1,0 +1,16 @@
+---
+# tasks file for mysql apps
+
+  - name: Mysql configure | Create db
+    community.mysql.mysql_db:
+      name: '{{ mysql_db }}'
+      master_data: 1
+      state: present
+  
+  - name: Mysql configure | Create user for app
+    community.mysql.mysql_user:
+      name: '{{ mysql_user }}'
+      host: '%'
+      password: '{{ mysql_pass }}'
+      priv: '{{ mysql_db }}.*:ALL,GRANT'
+      state: present

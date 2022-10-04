@@ -1,0 +1,17 @@
+---
+# tasks file for gitlab
+
+#  - name: Add hostnames in hosts
+#    include_tasks: hosts.yml
+
+  - name: Gitlab-ci | Install Docker
+    include_tasks: install-docker.yml
+    when: ansible_nodename == {{ runner }}
+
+  - name: Install {{ gitlab }} | Configure and start
+    include_tasks: gitlab.yml
+    when: ansible_nodename == {{ gitlab }}
+
+  - name: Install {{ runner }} | Configure and start
+    include_tasks: runner.yml
+    when: ansible_nodename == {{ runner }}

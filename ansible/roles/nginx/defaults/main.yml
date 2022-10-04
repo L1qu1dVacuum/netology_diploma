@@ -1,0 +1,50 @@
+---
+# defaults file for nginx
+
+domain_zones:
+  - www
+  - gitlab
+  - grafana
+  - prometheus
+  - alertmanager
+
+domain_streams:
+  - www
+  - gitlab
+  - monitoring
+  - db01
+  - db02
+  - runner
+  
+my_domain: mydomainyouknow.fun
+
+# Ip for hosts
+db01_ip:          "10.10.0.5"    
+db02_ip:          "10.10.0.6"    
+www_ip:          "10.10.0.7"     
+gitlab_ip:       "10.10.0.8"     
+runner_ip:       "10.10.0.9"     
+alertmanager_ip: "10.10.0.10"     
+prometheus_ip:   "10.10.0.10"   
+grafana_ip:      "10.10.0.10"
+monitoring_ip:   "10.10.0.10"
+
+# Ports for proxy
+http_port:            "80"
+https_port:           "443"
+ssh_port:             "22"
+db_port:              "3306"
+grafana_port:         "3000"
+prometheus_port:      "9090"
+alert_port:           "9093"
+alert_bot_port:       "8080"
+
+# External ports
+db01_stream:           "22313"
+db02_stream:           "22314"
+gitlab_stream:        "22063"
+runner_stream:        "22064"
+www_stream:           "22053"
+monitoring_stream:    "22083"
+db01_db_stream:        "33061"
+db02_db_stream:        "33062"

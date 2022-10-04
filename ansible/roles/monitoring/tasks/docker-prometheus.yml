@@ -1,0 +1,84 @@
+---
+# tasks file for monitoring prometheus
+
+  - name: Prometheus | Create directory for volumes config
+    file:
+      path: /home/{{ ansible_user }}/prometheus
+      state: directory
+
+  - name: Prometheus | Copy prometheus.yml file
+    template:
+      src: templates/prometheus.yml.j2
+      dest: /home/{{ ansible_user }}/prometheus/prometheus.yml
+      mode: 0755
+
+  - name: Prometheus | Copy alert.rules file
+    copy:
+      src: templates/alert.rules
+      dest: /home/{{ ansible_user }}/prometheus/alert.rules
+      mode: 0755
+    ignore_errors: true
+
+  - name: Grafana | Create directory for volumes config
+    file:
+      path: /home/{{ ansible_user }}/grafana
+      state: directory
+
+  - name: Grafana | Create directory for volumes provisioning
+    file:
+      path: /home/{{ ansible_user }}/grafana/provisioning
+      state: directory
+
+  - name: Grafana | Create directory for volumes datasources
+    file:
+      path: /home/{{ ansible_user }}/grafana/provisioning/datasources
+      state: directory
+
+  - name: Grafana | Create directory for volumes dashboards
+    file:
+      path: /home/{{ ansible_user }}/grafana/provisioning/dashboards
+      state: directory
+
+  - name: Grafana | Copy datasource file
+    template:
+      src: templates/datasource.yml.j2
+      dest: /home/{{ ansible_user }}/grafana/provisioning/datasources/datasource.yml
+      mode: 0755
+
+  - name: Grafana | Copy dashboard file
+    template:
+      src: templates/dashboard.yml.j2
+      dest: /home/{{ ansible_user }}/grafana/provisioning/dashboards/dashboard.yml
+      mode: 0755
+
+  - name: Grafana | Copy dashboard node exporter full
+    copy:
+      src: templates/node-exporter-full.json
+      dest: /home/{{ ansible_user }}/grafana/provisioning/dashboards/node-exporter-full.json
+      mode: 0755
+
+  - name: Alertmanager | Create directory for volumes config
+    file:
+      path: /home/{{ ansible_user }}/alertmanager
+      state: directory
+
+  - name: Alertmanager | Copy config.yml file
+    template:
+      src: templates/am.config.yml.j2
+      dest: /home/{{ ansible_user }}/alertmanager/config.yml
+      mode: 0755
+
+  - name: Monitoring | Copy Docker-compose file
+    template:
+      src: templates/docker-compose.j2
+      dest: /home/{{ ansible_user }}/docker-compose.yml
+      mode: 0755
+
+  - name: Docker | Create and start services
+    docker_compose:
+      project_src: /home/{{ ansible_user }}
+    register: output
+
+  - name: Show register
+    debug: 
+      var: output

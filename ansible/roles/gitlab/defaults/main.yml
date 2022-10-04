@@ -1,0 +1,25 @@
+---
+# defaults file for gitlab
+
+runner: runner
+gitlab: gitlab
+
+gitlab_pass:  gitlab_pass
+token_ce:     T0kenF0rRunners
+
+gitlab_host: gitlab.mydomainyouknow.fun
+
+gitlab_url:   http://gitlab.mydomainyouknow.fun
+gitlab_urls:  https://gitlab.mydomainyouknow.fun
+
+http_port:  "80"
+ssh_port:   "8822"
+
+db01_ip:          "10.10.0.5"    
+db02_ip:          "10.10.0.6"    
+www_ip:          "10.10.0.7"     
+gitlab_ip:       "10.10.0.8"     
+runner_ip:       "10.10.0.9"     
+alertmanager_ip: "10.10.0.10"     
+prometheus_ip:   "10.10.0.10"   
+grafana_ip:      "10.10.0.10"

@@ -1,0 +1,61 @@
+rule_files:
+  - "alert.rules"
+
+scrape_configs:
+  - job_name: 'ne_monitoring'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ datasource_host }}:{{ ne_port }}']
+
+  - job_name: 'wordpress'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ www }}:{{ ne_port }}']
+
+  - job_name: 'gitlab'
+    static_configs:
+      - targets: ['{{ gitlab }}:{{ ne_port }}']
+
+  - job_name: 'runner'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ runner }}:{{ ne_port }}']
+    
+  - job_name: 'db_prod'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ db01 }}:{{ ne_port }}']
+
+  - job_name: 'db_replica'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ db02 }}:{{ ne_port }}']
+
+  - job_name: 'nginx'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ reverse }}:{{ ne_port }}']
+
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['{{ monitoring }}:{{ prometheus_port }}']
+
+  - job_name: 'alertmanager'
+    scrape_interval: 10s
+    honor_labels: true
+    static_configs:
+      - targets: ['{{ monitoring }}:{{ alertmanager_port }}']
+
+  - job_name: 'grafana'
+    scrape_interval: 10s
+    honor_labels: true
+    static_configs:
+      - targets: ['{{ monitoring }}:{{ grafana_port }}']
+
+alerting:
+  alertmanagers:
+  - scheme: http
+    static_configs:
+    - targets:
+      - '{{ monitoring }}:{{ alertmanager_port }}'

@@ -1,0 +1,10 @@
+version: "3.6"
+services:
+    runner:
+      image: 'gitlab/gitlab-runner:latest'
+      container_name: {{ runner }}
+      hostname: {{ runner }}
+      restart: always
+      volumes:
+        - /home/{{ ansible_user }}/runner-config:/etc/gitlab-runner
+        - /home/{{ ansible_user }}/ranner-docker.sock:/var/run/docker.sock

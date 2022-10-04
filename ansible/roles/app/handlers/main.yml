@@ -1,0 +1,23 @@
+---
+# handlers file for app
+
+  - name: Nginx start
+    systemd:
+      state: started
+      name: nginx
+    
+  - name: Nginx reload
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: nginx
+
+  - name: php5-fpm start
+    service: 
+      name: php5-fpm 
+      state: started
+
+  - name: php5-fpm restart 
+    service: 
+      name: php5-fpm 
+      state: restarted

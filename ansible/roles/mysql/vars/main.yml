@@ -1,0 +1,9 @@
+---
+# vars file for mysql
+
+mysql_user: wordpress
+mysql_pass: wordpress
+mysql_db: wordpress
+
+replication_user: replica
+replication_pass: replica

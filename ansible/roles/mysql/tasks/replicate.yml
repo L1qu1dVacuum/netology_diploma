@@ -1,0 +1,55 @@
+---
+# tasks file for mysql replicate
+
+  - name: Mysql configure | Create user for replication
+    community.mysql.mysql_user:
+      name: '{{ replication_user }}'
+      host: '%'
+      password: '{{ replication_pass }}'
+      priv: '*.*:REPLICATION SLAVE,REPLICATION CLIENT'
+      state: present
+
+  - name: Mysql cluster | Get primary
+    community.mysql.mysql_replication:
+      mode: getprimary
+      login_user: "{{ replication_user }}"
+      login_password: "{{ replication_pass }}"
+    delegate_to: "{{ primary_host }}"
+    register: status_primary
+
+  - name: Mysql cluster | Show pfimary File
+    debug:
+      var: status_primary.File
+
+  - name: Mysql cluster | Show ptimary Position
+    debug:
+      var: status_primary.Position
+
+  - name: Mysql cluster | Change primary
+    community.mysql.mysql_replication:
+      mode: changeprimary
+      primary_host: "{{ primary_server }}"
+      primary_user: "{{ replication_user }}"
+      primary_password: "{{ replication_pass }}"
+      primary_log_file: "{{ status_primary.File }}"
+      primary_log_pos: "{{ status_primary.Position }}"
+    when: ansible_nodename == "{{ replica_server }}"
+  
+  - name: Mysql cluster | Run start replica 
+    community.mysql.mysql_replication:
+      mode: startreplica
+      fail_on_error: yes
+    when: ansible_nodename == "{{ replica_server }}"
+
+  - name: Mysql cluster | Get replica
+    community.mysql.mysql_replication:
+      mode: getreplica
+      login_user: "{{ replication_user }}"
+      login_password: "{{ replication_pass }}"
+    when: ansible_nodename == "{{ replica_server }}"
+    register: status_replica
+
+  - name: Mysql cluster | Show replica
+    debug:
+      var: status_replica
+    when: ansible_nodename == "{{ replica_server }}"

@@ -1,0 +1,26 @@
+---
+# tasks file for gitlab docker install
+
+  - name: Gitlab-ci | Update apt cache
+    apt: 
+      update_cache: yes 
+      cache_valid_time: 3600
+    ignore_errors: true
+
+  - name: Gitlab-ci | Install docker
+    apt:
+      name: 
+        - docker
+        - docker-compose
+      state: latest
+
+#  - name: Installing tools
+#    apt:
+#      name:
+#        - git
+#        - curl
+#      state: present
+#      update_cache: yes
+  
+#  - name: Installing docker
+#    command: curl -fsSL https://get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh

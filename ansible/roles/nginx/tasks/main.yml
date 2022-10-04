@@ -1,0 +1,17 @@
+---
+# tasks file for nginx
+
+  - name: Install packages
+    include_tasks: install.yml
+
+  - name: Configure nginx and proxy
+    include_tasks: proxy.yml
+
+  - name: Configure streams
+    include_tasks: stream.yml
+
+  - name: Flush handlers
+    meta: flush_handlers
+  
+  - name: Create certificates
+    include_tasks: certificate.yml

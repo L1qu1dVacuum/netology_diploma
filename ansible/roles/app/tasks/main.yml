@@ -1,0 +1,14 @@
+---
+# tasks file for app
+
+#  - name: Create hostnames
+#    include_tasks: hosts.yml
+
+  - name: Install Nginx and congig
+    include_tasks: nginx.yml
+
+  - name: Install php
+    include_tasks: php.yml
+  
+  - name: Install wordpress
+    include_tasks: wordpress.yml

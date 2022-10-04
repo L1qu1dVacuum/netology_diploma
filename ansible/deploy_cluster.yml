@@ -1,0 +1,42 @@
+---
+# deploy cluster tasks
+
+  - name: Install Nginx
+    hosts: you-node
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - nginx
+
+  - name: Install MySQL
+    hosts: db-node
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - mysql
+
+  - name: Install Wordpress
+    hosts: app-node
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - app
+
+  - name: Install Gitlab
+    hosts: gitlab-node
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - gitlab
+
+  - name: Install Monitoring
+    hosts: all
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - monitoring
