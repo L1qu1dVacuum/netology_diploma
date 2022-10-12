@@ -1,0 +1,25 @@
+---
+# tasks file for mysql settings
+
+  - name: enable remote login
+    lineinfile:
+      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      regexp: '^bind-address'
+      line: 'bind-address = 0.0.0.0'
+      backup: yes
+  
+  - name: set id for db01
+    lineinfile:
+      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      line: 'server-id = 1'
+      create: yes
+    when: ansible_nodename == master_server 
+    notify: restart mysql
+
+  - name: set id for db02
+    lineinfile:
+      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      line: 'server-id = 2'
+      create: yes
+    when: ansible_nodename == replica_server 
+    notify: restart mysql

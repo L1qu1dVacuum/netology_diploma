@@ -1,27 +1,27 @@
 ---
 # tasks file for gitlab docker
 
-  - name: Docker {{ gitlab }} | Copy Docker-compose file
-    template:
-      src: templates/docker-compose-ce.j2
+  - name: copy docker-compose file
+    copy:
+      src: files/gitlab/docker-compose.yml
       dest: /home/{{ ansible_user }}/docker-compose.yml
       mode: 0755
 
-  - name: Docker {{ gitlab }} | Create directory for volumes config
+  - name: create directory for volumes config
     file:
       path: /home/{{ ansible_user }}/gitlab-config
       state: directory
 
-  - name: Docker {{ gitlab }} | Create directory for volumes data
+  - name: create directory for volumes data
     file:
       path: /home/{{ ansible_user }}/gitlab-data
       state: directory
 
-  - name: Docker {{ gitlab }} | Create and start services
+  - name: create and start services
     docker_compose:
       project_src: /home/{{ ansible_user }}
     register: output
 
-  - name: Show register
+  - name: show register
     debug: 
       var: output

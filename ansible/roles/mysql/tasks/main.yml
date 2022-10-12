@@ -1,21 +1,18 @@
 ---
 # tasks file for mysql
 
-#   - name: Mysql | Create hostnames
-#     include_tasks: hosts.yml
-
-  - name: Mysql | Get install packages
+  - name: install packages
     include_tasks: install.yml
 
-  - name: Mysql | Change settings mysql
-    include_tasks: settings_mysqld.yml
+  - name:  setup mysql
+    include_tasks: mysqld.yml
   
-  - name: Flush handlers
+  - name: flush handlers
     meta: flush_handlers
 
-  - name: Mysql replicate | Configure and start replicate
-    include_tasks: replicate.yml
+  - name: configure replication
+    include_tasks: replica.yml
 
-  - name: Mysql create database | Create database and user for wordpress
+  - name: create database and user
     include_tasks: apps.yml
-    when: ansible_nodename == "{{ primary_server }}"
+    when: ansible_nodename == master_server 

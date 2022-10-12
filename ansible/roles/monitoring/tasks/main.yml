@@ -1,13 +1,13 @@
 ---
 # tasks file for monitoring
 
-  - name: Install Node-exporter
+  - name: install node-exporter
     include_tasks: node-exporter.yml
 
-  - name: Install Docker
+  - name: install docker
     include_tasks: install-docker.yml
-    when: ansible_nodename == "{{ monitoring_host }}"
+    when: ansible_nodename == monitoring_host 
 
-  - name: Configure and start Docker
+  - name: configure and start docker
     include_tasks: docker-prometheus.yml
-    when: ansible_nodename == "{{ monitoring_host }}"
+    when: ansible_nodename == monitoring_host 

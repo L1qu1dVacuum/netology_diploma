@@ -1,0 +1,9 @@
+---
+# tasks file for nginx certificate
+
+  - name: create cert
+    command: certbot certonly --nginx --test-cert -m kotov.d.d@gmail.com --agree-tos -d {{ item }}.{{ domain }} --quiet --no-self-upgrade --non-interactive
+    with_items: "{{ zones }}"
+    notify: nginx reload
+
+  

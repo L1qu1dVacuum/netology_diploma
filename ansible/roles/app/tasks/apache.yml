@@ -1,0 +1,17 @@
+---
+# tasks file for app apache
+
+  - name: update apt cache
+    apt: 
+      update_cache: yes 
+      cache_valid_time: 3600
+    ignore_errors: true
+  
+  - name: install apache
+    apt:
+      name: "{{ item }}"
+      state: latest
+    with_items: "{{ apache_packages }}"
+    notify: apache start
+
+

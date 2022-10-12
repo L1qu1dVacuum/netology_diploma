@@ -10,3 +10,7 @@ variable "yandex_folder_id" {
   type        = string
   default     = "b1gmjbll9tsenitvtbv4"
 }
+
+variable "domain" {
+  default = "mydomainyouknow.fun"
+}

@@ -1,0 +1,9 @@
+---
+# tasks file for nginx certificate
+
+  - name: create cert
+    command: certbot --nginx -m kotov.d.d@gmail.com --agree-tos -d {{ item }}.{{ domain }} --quiet --no-self-upgrade --force-renewal --break-my-certs --redirect
+    with_items: "{{ zones }}"
+    notify: nginx reload
+
+  

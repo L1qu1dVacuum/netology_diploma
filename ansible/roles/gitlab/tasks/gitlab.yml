@@ -1,47 +1,43 @@
 ---
 # tasks file for gitlab install
 
-  - name: Gitlab | Update apt cache
+  - name: update apt cache
     apt: 
       update_cache: yes 
       cache_valid_time: 3600
     ignore_errors: true
 
-  - name: Gitlab | Install packages
+  - name: install packages
     apt:
-      name: 
-        - curl 
-        - openssh-server 
-        - ca-certificates 
-        - tzdata 
-        - perl
+      name: "{{ item }}"
       state: latest
+    with_items: "{{ gitlab_packages }}"
 
-  - name: Gitlab | Install postfix
+  - name: install postfix
     apt:
       name:
         - postfix
       state: latest
 
-  - name: Gitlab | Download settings repository file
+  - name: download settings repository file
     get_url:
       url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
       dest: /home/{{ ansible_user }}
-      mode: '0777'
+      mode: 0777
 
-  - name: Gitlab | Add gitlab repositiry
+  - name: add gitlab repositiry
     command: ./script.deb.sh
 
-  - name: Gitlab | Install Gitlab
+  - name: install gitlab
     apt:
       name:
         - gitlab-ce
       state: latest
 
-  - name: Gitlab | Copy gitlab.rb
+  - name: copy gitlab.rb
     template:
       src: templates/gitlab.rb.j2
       dest: /etc/gitlab/gitlab.rb
 
-  - name: Gitlab | Reconfigure
+  - name: reconfigure
     command: gitlab-ctl reconfigure

@@ -1,0 +1,27 @@
+---
+# tasks file for app virtualhost
+
+  - name: create site root
+    file:
+      path: /var/www/{{ zones }}.{{ domain }}
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0755
+
+  - name: set up apache virtualhost
+    template:
+      src: templates/apache.conf.j2
+      dest: /etc/apache2/sites-available/{{ domain }}.conf
+
+  - name: enable rewrite module
+    shell: /usr/sbin/a2enmod rewrite
+
+  - name: enable new site
+    shell: /usr/sbin/a2ensite {{ domain }}.conf
+
+  - name: disable default apache site
+    file: 
+      path: /etc/apache2/sites-enabled/000-default.conf
+      state: absent
+    notify: apache reload

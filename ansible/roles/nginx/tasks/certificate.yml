@@ -1,9 +1,0 @@
----
-# tasks file for nginx certificate
-
-  - name: Nginx cert | Create cert
-    command: certbot certonly --test-cert --webroot -w /var/www/{{ my_domain }} -m kotov.d.d@gmail.com --agree-tos -d {{ item }}.{{ my_domain }} --quiet --no-self-upgrade --non-interactive
-#    command: certbot --nginx -m kotov.d.d@gmail.com --agree-tos -d {{ item }}.{{ my_domain }} --quiet --no-self-upgrade
-    with_items: "{{ domain_zones }}"
-    notify: Nginx reload
-    ignore_errors: true

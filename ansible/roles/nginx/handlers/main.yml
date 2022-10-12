@@ -1,12 +1,12 @@
 ---
 # handlers file for nginx
 
-  - name: Nginx start
+  - name: nginx start
     systemd:
       state: started
       name: nginx
-    
-  - name: Nginx reload
+
+  - name: nginx reload
     systemd:
       state: restarted
       daemon_reload: yes

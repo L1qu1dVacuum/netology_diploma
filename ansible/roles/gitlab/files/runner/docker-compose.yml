@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    runner:
+      image: 'gitlab/gitlab-runner:alpine3.15-bleeding'
+      container_name: {{ runner }}
+      hostname: {{ runner }}
+      restart: unless-stopped
+
+      volumes:
+        - /home/{{ ansible_user }}/runner-config:/etc/gitlab-runner
+        - /home/{{ ansible_user }}/ranner-docker.sock:/var/run/docker.sock

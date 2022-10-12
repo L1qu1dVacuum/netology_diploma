@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:15.4.2-ce.0'
+    container_name: {{ gitlab }} 
+    hostname: {{ gitlab_host }}
+    shm_size: '256m'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['initial_root_password'] = "{{ gitlab_pass }}"
+        gitlab_rails['initial_shared_runners_registration_token'] = "{{ token_ce }}"
+        external_url '{{ gitlab_url }}'
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        prometheus_monitoring['enable'] = false
+    restart: unless-stopped
+    ports:
+      - 443:443
+      - 80:80
+      - 22:22
+
+    volumes:
+      - /home/{{ ansible_user }}/gitlab-config:/etc/gitlab
+      - /home/{{ ansible_user }}/gitlab-data:/var/opt/gitlab
+      - ./logs:/var/log/gitlab

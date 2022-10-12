@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  prometheus:
+    image: 'prom/prometheus:v2.39.0'
+    container_name: prometheus
+    hostname: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.enable-lifecycle
+    environment:
+      TZ: "Europe/Moscow"
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+
+    volumes:
+      - ./prometheus:/etc/prometheus/
+      - prometheus_data:/prometheus
+
+  grafana:
+      image: 'grafana/grafana:9.1.7'
+      user: root
+      depends_on:
+        - prometheus
+      environment:
+      - GF_SECURITY_ADMIN_USER={{ ADMIN_USER }}
+      - GF_SECURITY_ADMIN_PASSWORD={{ ADMIN_PASSWORD }}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      container_name: grafana
+      hostname: grafana
+      environment:
+        TZ: "Europe/Moscow"
+      restart: unless-stopped
+      ports:
+        - 3000:3000
+
+      volumes:
+        - grafana_data:/var/lib/grafana
+        - ./grafana/provisioning/:/etc/grafana/provisioning/
+        - ./grafana/dashboards/:/etc/grafana/dashboards/
+
+  alertmanager:
+    image: 'prom/alertmanager:v0.24.0'
+    user: root
+    container_name: alertmanager
+    hostname: alertmanager
+    environment:
+      TZ: "Europe/Moscow"
+    command:
+      - --config.file=/etc/alertmanager/config.yml
+      - --storage.path=/alertmanager
+    restart: unless-stopped
+    ports:
+      - 9093:9093
+
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}

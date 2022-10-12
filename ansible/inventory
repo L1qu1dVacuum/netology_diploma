@@ -1,0 +1,18 @@
+    
+[you-node]
+www.mydomainyouknow.fun ansible_host=178.154.229.38
+
+[db-node]
+db01.mydomainyouknow.fun ansible_host=178.154.228.27
+db02.mydomainyouknow.fun ansible_host=178.154.230.75
+
+[app-node]
+app.mydomainyouknow.fun ansible_host=51.250.7.35
+
+[gitlab-node]
+gitlab.mydomainyouknow.fun ansible_host=178.154.229.223
+runner.mydomainyouknow.fun ansible_host=51.250.9.11
+
+[monitoring-node]
+monitoring.mydomainyouknow.fun ansible_host=178.154.228.93
+

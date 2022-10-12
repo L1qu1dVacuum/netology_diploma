@@ -1,13 +1,13 @@
 ---
 # tasks file for monitoring docker install
 
-  - name: Monitoring | Update apt cache
+  - name: update apt cache
     apt: 
       update_cache: yes 
       cache_valid_time: 3600
     ignore_errors: true
 
-  - name: Monitoring | Install docker
+  - name: install docker
     apt:
       name: 
         - docker

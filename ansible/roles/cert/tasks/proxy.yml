@@ -1,0 +1,18 @@
+---
+# tasks file for nginx proxy
+
+  - name: copy config files
+    template:
+      src: templates/{{ item }}.conf.j2
+      dest: /etc/nginx/sites-available/{{ item }}.conf
+      owner: www-data 
+      group: www-data 
+      mode: 0644
+    with_items: "{{ zones }}"
+
+  - name: enable sites
+    file:
+      src: /etc/nginx/sites-available/{{ item }}.conf
+      dest: /etc/nginx/sites-enabled/{{ item }}
+      state: link
+    with_items: "{{ zones }}"

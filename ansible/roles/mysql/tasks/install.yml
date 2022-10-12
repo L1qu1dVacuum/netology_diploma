@@ -1,13 +1,13 @@
 ---
 # tasks file for mysql install
 
-  - name: Update apt cache
+  - name: update apt cache
     apt: 
       update_cache: yes 
       cache_valid_time: 3600
     ignore_errors: true
 
-  - name: Mysql install | Install server
+  - name: install Mysql
     apt:
       name: '{{ item }}'
       state: latest

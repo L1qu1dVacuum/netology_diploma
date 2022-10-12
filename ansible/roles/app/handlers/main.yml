@@ -1,16 +1,16 @@
 ---
 # handlers file for app
 
-  - name: Nginx start
+  - name: apache start
     systemd:
       state: started
-      name: nginx
+      name: apache2
     
-  - name: Nginx reload
+  - name: apache reload
     systemd:
       state: restarted
       daemon_reload: yes
-      name: nginx
+      name: apache2
 
   - name: php5-fpm start
     service: 

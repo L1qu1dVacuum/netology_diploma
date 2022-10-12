@@ -17,7 +17,20 @@
  *
  * @package WordPress
  */
+define('FORCE_SSL_ADMIN', true);
 
+$_SERVER['REQUEST_URI'] = str_replace("/wp-admin/", "/blog/wp-admin/",  $_SERVER['REQUEST_URI']);
+
+if($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'){
+
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
+}
+
+define('WP_HOME','https://www.mydomainyouknow.fun');
+
+define('WP_SITEURL','https://www.mydomainyouknow.fun');
+ 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', '{{ mysql_db }}' );

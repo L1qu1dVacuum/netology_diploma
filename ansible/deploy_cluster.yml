@@ -8,6 +8,8 @@
     remote_user: ubuntu
     roles:
       - nginx
+    vars:
+      nginx_user: www-data
 
   - name: Install MySQL
     hosts: db-node
@@ -24,6 +26,8 @@
     remote_user: ubuntu
     roles:
       - app
+    vars:
+      apache2_user: www-data
 
   - name: Install Gitlab
     hosts: gitlab-node
@@ -40,3 +44,13 @@
     remote_user: ubuntu
     roles:
       - monitoring
+
+  - name: Install Nginx
+    hosts: you-node
+    become: yes
+    become_user: root
+    remote_user: ubuntu
+    roles:
+      - cert
+    vars:
+      nginx_user: www-data

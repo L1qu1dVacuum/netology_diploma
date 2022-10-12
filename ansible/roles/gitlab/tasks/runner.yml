@@ -1,72 +1,64 @@
 ---
 # tasks file for gitlab runner
 
-  - name: Runner | Update apt cache
+  - name: update apt cache
     apt: 
       update_cache: yes 
       cache_valid_time: 3600
     ignore_errors: true
 
-  - name: Runner | Install packages
+  - name: install packages
     apt:
-      name:
-        - curl
-        - python3 
-        - ansible
-        - python3-pip
+      name: "{{ item }}"
       state: latest
+    with_items: "{{ runner_packages }}"
 
-  - name: Runner | Pip upgrade
+  - name: pip upgrade
     command: pip install --upgrade cryptography cffi \ pip install --upgrade pip wheel
 
-  - name: Runner | Upgrade ansible
+  - name: upgrade ansible
     pip:
       name:
         - ansible
       state: latest
       extra_args: --user
 
-  - name: Install multi python packages with version specifiers
+  - name: install multi python packages
     pip:
       name:
         - ansible-lint==4.0.0
 
-  - name: Runner | Download settings repository file
+  - name: download settings repository file
     get_url:
       url: https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh
       dest: /home/{{ ansible_user }}
-      mode: '0777'
+      mode: 0777
 
-  - name: Runner | Add apt package gitlab-runner
+  - name: add apt package gitlab-runner
     command: ./script.deb.sh
 
-  - name: Runner | Install gitlab-runner
+  - name: install gitlab-runner
     apt:
       name:
         - gitlab-runner
       state: latest
 
-  - name: Gitlab-ci | Give rights
+  - name: grant rights
     command: usermod -aG docker gitlab-runner
 
-#  - name: Runner | copy ssh key
-#    template:
-#      src: /home/roman/.ssh/id_rsa.netology
-#      dest: /home/{{ ansible_user }}/.ssh/id_rsa.netology
-
-  - name: Runner | Copy config.toml ans register
+  - name: copy config.toml ans register
     template:
       src: templates/config.j2
       dest: /etc/gitlab-runner/config.toml
-    notify: Restart runner
+    notify: restart runner
 
-  - name: Runner | Flush handlers
+  - name: flush handlers
     meta: flush_handlers
 
-  - name: Runner | Get register info
+  - name: get register info
     command: gitlab-runner list
     register: runner_status
 
-  - name: Runner | Show runner status
+  - name: show runner status
     debug:
       var: runner_status.stdout

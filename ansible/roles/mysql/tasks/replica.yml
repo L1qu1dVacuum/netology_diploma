@@ -1,0 +1,55 @@
+---
+# tasks file for mysql replicate
+
+  - name: create user
+    mysql_user:
+      name: '{{ replication_user }}'
+      host: '%'
+      password: '{{ replication_pass }}'
+      priv: '*.*:REPLICATION SLAVE,REPLICATION CLIENT'
+      state: present
+
+  - name: get primary
+    mysql_replication:
+      mode: getprimary
+      login_user: "{{ replication_user }}"
+      login_password: "{{ replication_pass }}"
+    delegate_to: "{{ master_host }}"
+    register: status_primary
+
+  - name: primary status
+    debug:
+      var: status_primary.File
+
+  - name: position primary
+    debug:
+      var: status_primary.Position
+
+  - name: change primary
+    mysql_replication:
+      mode: changeprimary
+      master_host: "{{ master_server }}"
+      primary_user: "{{ replication_user }}"
+      primary_password: "{{ replication_pass }}"
+      primary_log_file: "{{ status_primary.File }}"
+      primary_log_pos: "{{ status_primary.Position }}"
+    when: ansible_nodename == replica_server 
+  
+  - name: run replica 
+    mysql_replication:
+      mode: startreplica
+      fail_on_error: yes
+    when: ansible_nodename == replica_server
+
+  - name: get replica
+    mysql_replication:
+      mode: getreplica
+      login_user: "{{ replication_user }}"
+      login_password: "{{ replication_pass }}"
+    when: ansible_nodename == replica_server 
+    register: status_replica
+
+  - name: replica status
+    debug:
+      var: status_replica
+    when: ansible_nodename == replica_server 

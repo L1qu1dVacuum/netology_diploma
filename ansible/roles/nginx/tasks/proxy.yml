@@ -1,31 +1,32 @@
 ---
 # tasks file for nginx proxy
 
-  - name: Nginx config | Copy nginx.conf file
+  - name: copy nginx.conf
     template:
       src: templates/nginx.conf.j2
       dest: /etc/nginx/nginx.conf
+      owner: www-data 
+      group: www-data 
+      mode: 0644
 
-  - name: Nginx config | Copy hosts file
-    template:
-      src: templates/hosts.j2
-      dest: /etc/hosts
-
-  - name: Nginx config | Copy config files
+  - name: copy config files
     template:
       src: templates/{{ item }}.conf.j2
       dest: /etc/nginx/sites-available/{{ item }}.conf
-    with_items: "{{ domain_zones }}"
+      owner: www-data 
+      group: www-data 
+      mode: 0644
+    with_items: "{{ zones }}"
 
-  - name: Nginx config | Enable sites
+  - name: enable sites
     file:
       src: /etc/nginx/sites-available/{{ item }}.conf
       dest: /etc/nginx/sites-enabled/{{ item }}
       state: link
-    with_items: "{{ domain_zones }}"
+    with_items: "{{ zones }}"
   
-  - name: Nginx config | Disable default
+  - name: disable default
     file:
       path: /etc/nginx/sites-enabled/default
       state: absent
-    notify: Nginx reload
+    notify: nginx reload

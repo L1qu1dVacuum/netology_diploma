@@ -1,0 +1,24 @@
+<VirtualHost *:{{ http_port }}>
+    ServerAdmin webmaster@localhost
+    ServerName {{ zones }}.{{ domain }}
+    ServerAlias {{ zones }}.{{ domain }}
+    DocumentRoot /var/www/{{ zones }}.{{ domain }}/wordpress
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/{{ zones }}.{{ domain }}>
+          Options FollowSymLinks
+          AllowOverride Limit Options FileInfo
+          DirectoryIndex index.php
+          Require all granted
+    </Directory>
+    <Directory /srv/www/wordpress/{{ zones }}.{{ domain }}/wp-content>
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+
+    <IfModule mod_dir.c>
+        DirectoryIndex index.php index.html index.cgi index.pl  index.xhtml index.htm
+    </IfModule>
+
+</VirtualHost>

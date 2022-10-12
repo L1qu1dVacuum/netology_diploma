@@ -1,0 +1,8 @@
+---
+# tasks file for nginx
+
+  - name: setup proxy
+    include_tasks: proxy.yml
+  
+  - name: create cert
+    include_tasks: certbot.yml

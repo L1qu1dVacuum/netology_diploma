@@ -1,12 +1,37 @@
 ---
 # defaults file for app
 
-domain_zones: www
-my_domain:    mydomainyouknow.fun
+zones:        www
+domain:       mydomainyouknow.fun
 
-mysql_host: db01.mydomainyouknow.fun
+mysql_host:   db01.mydomainyouknow.fun
 
-wp_version: latest
+db01_ip:      "10.10.0.5"
+db02_ip:      "10.10.0.6"
 
-db01_ip: 10.10.0.5
-db02_ip: 10.10.0.6
+http_port:    "80"
+
+# pacages for installation
+
+php_packages:
+  - php7.4
+  - php7.4-fpm
+  - php7.4-mysql
+  - php7.4-curl
+  - php7.4-gd
+  - php7.4-mbstring
+  - php7.4-bcmath
+  - php7.4-imagick
+  - php7.4-json
+  - php7.4-xml
+  - php7.4-xmlrpc
+  - php7.4-soap
+  - php7.4-intl
+  - php7.4-zip
+
+apache_packages:
+  - apache2
+  - ghostscript
+  - python3-pymysql
+  - libapache2-mod-php
+  - git
