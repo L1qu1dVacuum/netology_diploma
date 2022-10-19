@@ -45,7 +45,7 @@
     roles:
       - monitoring
 
-  - name: Install Nginx
+  - name: Install Cert
     hosts: you-node
     become: yes
     become_user: root
