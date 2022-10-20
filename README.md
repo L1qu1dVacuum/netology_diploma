@@ -1,6 +1,3 @@
-# netology_diploma
-
-------
 
 # Дипломный практикум в YandexCloud
 
